@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 import "../globals.css";
 
 const geistSans = Geist({
@@ -48,7 +49,12 @@ export default async function LocaleLayout({
       className={`${geistSans.variable} ${notoArabic.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider>
+          <header className="flex justify-end px-4 py-3">
+            <LanguageSwitcher />
+          </header>
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );
