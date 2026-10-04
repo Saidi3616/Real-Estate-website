@@ -8,7 +8,8 @@
     "listTitle": "Logements disponibles",
     "empty": "Aucun logement pour le moment.",
     "dbError": "Impossible de joindre la base de données",
-    "searchLink": "Rechercher un logement →"
+    "heroTitle": "Trouvez votre logement au Maroc",
+    "heroSubtitle": "Appartements, villas et riads à vendre ou à louer."
   },
   "PropertyCard": {
     "sale": "À vendre",

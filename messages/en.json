@@ -8,7 +8,8 @@
     "listTitle": "Available properties",
     "empty": "No properties yet.",
     "dbError": "Could not reach the database",
-    "searchLink": "Search properties →"
+    "heroTitle": "Find your home in Morocco",
+    "heroSubtitle": "Apartments, villas and riads for sale or rent."
   },
   "PropertyCard": {
     "sale": "For sale",

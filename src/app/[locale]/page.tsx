@@ -2,7 +2,7 @@ import { connection } from "next/server";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { supabase } from "@/lib/supabase";
 import PropertyCard from "@/components/PropertyCard";
-import { Link } from "@/i18n/navigation";
+import HomeSearch from "@/components/HomeSearch";
 
 export default async function Home({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
@@ -20,22 +20,24 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
     .eq("status", "published")
     .order("created_at", { ascending: false });
 
+  // Alle byer med udgivne boliger, til "By"-listen i søgebaren (hver by kun én gang).
+  const cities = [...new Set((properties ?? []).map((row) => row.city))].sort();
+
   return (
     <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-4 py-8">
-      <div className="flex flex-col gap-2">
-        <p className="text-sm font-semibold uppercase tracking-widest text-emerald-700">
+      {/* Stor søgebar øverst ("hero") */}
+      <section className="flex flex-col gap-4 rounded-3xl bg-emerald-800 px-4 py-10 sm:px-8 sm:py-14">
+        <p className="text-sm font-semibold uppercase tracking-widest text-emerald-200">
           {t("brand")}
         </p>
-        <h1 className="text-3xl font-bold text-stone-900 sm:text-4xl">
-          {t("listTitle")}
+        <h1 className="text-3xl font-bold text-white sm:text-5xl">
+          {t("heroTitle")}
         </h1>
-        <Link
-          href="/search"
-          className="self-start rounded-lg bg-emerald-700 px-4 py-2 font-semibold text-white hover:bg-emerald-800"
-        >
-          {t("searchLink")}
-        </Link>
-      </div>
+        <p className="text-emerald-100 sm:text-lg">{t("heroSubtitle")}</p>
+        <HomeSearch locale={locale} cities={cities} />
+      </section>
+
+      <h2 className="text-2xl font-bold text-stone-900">{t("listTitle")}</h2>
 
       {error ? (
         <p className="text-red-700">{t("dbError")}</p>
