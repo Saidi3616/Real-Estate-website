@@ -43,7 +43,9 @@
     "photos": "{count} photos · glissez",
     "whatsapp": "WhatsApp",
     "call": "Appeler",
-    "whatsappMessage": "Bonjour, je suis intéressé(e) par ce logement : {title} {url}"
+    "whatsappMessage": "Bonjour, je suis intéressé(e) par ce logement : {title} {url}",
+    "location": "Emplacement",
+    "locationNote": "Emplacement approximatif, pas l’adresse exacte."
   },
   "Search": {
     "title": "Rechercher un logement",

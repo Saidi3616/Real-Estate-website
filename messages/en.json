@@ -43,7 +43,9 @@
     "photos": "{count} photos · swipe",
     "whatsapp": "WhatsApp",
     "call": "Call",
-    "whatsappMessage": "Hello, I am interested in this property: {title} {url}"
+    "whatsappMessage": "Hello, I am interested in this property: {title} {url}",
+    "location": "Location",
+    "locationNote": "Approximate location, not the exact address."
   },
   "Search": {
     "title": "Search properties",

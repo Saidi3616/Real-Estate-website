@@ -43,7 +43,9 @@
     "photos": "{count} صور · اسحب",
     "whatsapp": "واتساب",
     "call": "اتصل",
-    "whatsappMessage": "السلام عليكم، أنا مهتم بهذا العقار: {title} {url}"
+    "whatsappMessage": "السلام عليكم، أنا مهتم بهذا العقار: {title} {url}",
+    "location": "الموقع",
+    "locationNote": "موقع تقريبي، وليس العنوان الدقيق."
   },
   "Search": {
     "title": "ابحث عن عقار",

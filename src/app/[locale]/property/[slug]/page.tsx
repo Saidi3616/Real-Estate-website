@@ -6,6 +6,7 @@ import { supabase } from "@/lib/supabase";
 import { Link } from "@/i18n/navigation";
 import { priceFormat } from "@/components/PropertyCard";
 import PropertyGallery from "@/components/PropertyGallery";
+import PropertyMap from "@/components/PropertyMap";
 
 // Faciliteter, vi har tekster til. Ukendte faciliteter springes over.
 const knownFeatures = [
@@ -67,6 +68,10 @@ export default async function PropertyPage({
       t("whatsappMessage", { title, url: pageUrl }),
     )}`;
   const phone = property.agent?.phone?.replace(/\s/g, "");
+
+  // Kun omtrentlig placering: koordinaterne rundes af (ca. 1 km), før de sendes til browseren.
+  const hasLocation = property.latitude != null && property.longitude != null;
+  const round = (n: number) => Math.round(n * 100) / 100;
 
   return (
     <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-6 px-4 pt-6">
@@ -146,6 +151,19 @@ export default async function PropertyPage({
               </li>
             ))}
           </ul>
+        </section>
+      )}
+
+      {hasLocation && (
+        <section className="flex flex-col gap-2">
+          <h2 className="text-lg font-semibold text-stone-900">
+            {t("location")}
+          </h2>
+          <PropertyMap
+            latitude={round(property.latitude)}
+            longitude={round(property.longitude)}
+          />
+          <p className="text-sm text-stone-500">{t("locationNote")}</p>
         </section>
       )}
 
