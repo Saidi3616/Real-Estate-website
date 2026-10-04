@@ -66,6 +66,14 @@
       "newest": "Plus récents",
       "price_asc": "Prix croissant",
       "price_desc": "Prix décroissant"
-    }
+    },
+    "neighborhood": "Quartier",
+    "neighborhoodPlaceholder": "ex. Gueliz",
+    "price": "Prix (MAD)",
+    "min": "Min",
+    "max": "Max",
+    "bedrooms": "Chambres",
+    "area": "Surface (m²)",
+    "count": "{count, plural, one {# logement trouvé} other {# logements trouvés}}"
   }
 }
