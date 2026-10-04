@@ -63,6 +63,12 @@ export default function AdminProperties() {
       >
         + Ny bolig
       </Link>
+      <Link
+        href="/admin/leads"
+        className="mb-4 block rounded-lg border border-emerald-700 px-4 py-3 text-center font-semibold text-emerald-700"
+      >
+        Se henvendelser
+      </Link>
 
       {error && <p className="text-red-700">Fejl: {error}</p>}
       {!rows && <p>Henter …</p>}
