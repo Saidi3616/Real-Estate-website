@@ -7,7 +7,8 @@
     "brand": "Boligportal Marokko",
     "listTitle": "Logements disponibles",
     "empty": "Aucun logement pour le moment.",
-    "dbError": "Impossible de joindre la base de données"
+    "dbError": "Impossible de joindre la base de données",
+    "searchLink": "Rechercher un logement →"
   },
   "PropertyCard": {
     "sale": "À vendre",
@@ -39,5 +40,32 @@
     "whatsapp": "WhatsApp",
     "call": "Appeler",
     "whatsappMessage": "Bonjour, je suis intéressé(e) par ce logement : {title} {url}"
+  },
+  "Search": {
+    "title": "Rechercher un logement",
+    "listing": "Vente / location",
+    "all": "Tous",
+    "sale": "À vendre",
+    "rent": "À louer",
+    "city": "Ville",
+    "allCities": "Toutes les villes",
+    "type": "Type de bien",
+    "sort": "Trier par",
+    "submit": "Rechercher",
+    "reset": "Réinitialiser",
+    "noResults": "Aucun logement ne correspond à votre recherche.",
+    "types": {
+      "apartment": "Appartement",
+      "villa": "Villa",
+      "riad": "Riad",
+      "house": "Maison",
+      "land": "Terrain",
+      "commercial": "Local commercial"
+    },
+    "sorts": {
+      "newest": "Plus récents",
+      "price_asc": "Prix croissant",
+      "price_desc": "Prix décroissant"
+    }
   }
 }

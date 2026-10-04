@@ -2,6 +2,7 @@ import { connection } from "next/server";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { supabase } from "@/lib/supabase";
 import PropertyCard from "@/components/PropertyCard";
+import { Link } from "@/i18n/navigation";
 
 export default async function Home({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
@@ -28,6 +29,12 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
         <h1 className="text-3xl font-bold text-stone-900 sm:text-4xl">
           {t("listTitle")}
         </h1>
+        <Link
+          href="/search"
+          className="self-start rounded-lg bg-emerald-700 px-4 py-2 font-semibold text-white hover:bg-emerald-800"
+        >
+          {t("searchLink")}
+        </Link>
       </div>
 
       {error ? (
