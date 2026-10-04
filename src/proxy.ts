@@ -5,6 +5,6 @@ import { routing } from "./i18n/routing";
 export default createMiddleware(routing);
 
 export const config = {
-  // Kør på alle sider, men ikke på filer (billeder, CSS osv.) og interne Next-stier
-  matcher: "/((?!api|_next|_vercel|.*\\..*).*)",
+  // Kør på alle sider, men ikke på admin, filer (billeder, CSS osv.) og interne Next-stier
+  matcher: "/((?!api|admin|_next|_vercel|.*\\..*).*)",
 };
