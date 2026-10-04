@@ -6,6 +6,8 @@
   "Home": {
     "brand": "Boligportal Marokko",
     "title": "Bienvenue 👋",
-    "subtitle": "Trouvez votre prochain logement au Maroc. Le site arrive bientôt."
+    "subtitle": "Trouvez votre prochain logement au Maroc. Le site arrive bientôt.",
+    "dbCount": "{count} logements dans la base de données",
+    "dbError": "Impossible de joindre la base de données"
   }
 }
