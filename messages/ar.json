@@ -5,9 +5,15 @@
   },
   "Home": {
     "brand": "Boligportal Marokko",
-    "title": "مرحبًا 👋",
-    "subtitle": "ابحث عن مسكنك القادم في المغرب. الموقع قادم قريبًا.",
-    "dbCount": "{count} عقارات في قاعدة البيانات",
+    "listTitle": "العقارات المتاحة",
+    "empty": "لا توجد عقارات حاليًا.",
     "dbError": "تعذر الاتصال بقاعدة البيانات"
+  },
+  "PropertyCard": {
+    "sale": "للبيع",
+    "rent": "للكراء",
+    "perMonth": "/ شهريًا",
+    "perDay": "/ يوميًا",
+    "bedrooms": "{count, plural, one {غرفة نوم واحدة} two {غرفتا نوم} few {# غرف نوم} other {# غرفة نوم}}"
   }
 }
