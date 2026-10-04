@@ -7,7 +7,8 @@
     "brand": "Boligportal Marokko",
     "listTitle": "Available properties",
     "empty": "No properties yet.",
-    "dbError": "Could not reach the database"
+    "dbError": "Could not reach the database",
+    "searchLink": "Search properties →"
   },
   "PropertyCard": {
     "sale": "For sale",
@@ -39,5 +40,32 @@
     "whatsapp": "WhatsApp",
     "call": "Call",
     "whatsappMessage": "Hello, I am interested in this property: {title} {url}"
+  },
+  "Search": {
+    "title": "Search properties",
+    "listing": "Sale / rent",
+    "all": "All",
+    "sale": "For sale",
+    "rent": "For rent",
+    "city": "City",
+    "allCities": "All cities",
+    "type": "Property type",
+    "sort": "Sort by",
+    "submit": "Search",
+    "reset": "Reset",
+    "noResults": "No properties match your search.",
+    "types": {
+      "apartment": "Apartment",
+      "villa": "Villa",
+      "riad": "Riad",
+      "house": "House",
+      "land": "Land",
+      "commercial": "Commercial"
+    },
+    "sorts": {
+      "newest": "Newest",
+      "price_asc": "Price: low to high",
+      "price_desc": "Price: high to low"
+    }
   }
 }

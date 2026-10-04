@@ -7,7 +7,8 @@
     "brand": "Boligportal Marokko",
     "listTitle": "العقارات المتاحة",
     "empty": "لا توجد عقارات حاليًا.",
-    "dbError": "تعذر الاتصال بقاعدة البيانات"
+    "dbError": "تعذر الاتصال بقاعدة البيانات",
+    "searchLink": "ابحث عن عقار ←"
   },
   "PropertyCard": {
     "sale": "للبيع",
@@ -39,5 +40,32 @@
     "whatsapp": "واتساب",
     "call": "اتصل",
     "whatsappMessage": "السلام عليكم، أنا مهتم بهذا العقار: {title} {url}"
+  },
+  "Search": {
+    "title": "ابحث عن عقار",
+    "listing": "بيع / كراء",
+    "all": "الكل",
+    "sale": "للبيع",
+    "rent": "للكراء",
+    "city": "المدينة",
+    "allCities": "كل المدن",
+    "type": "نوع العقار",
+    "sort": "الترتيب حسب",
+    "submit": "بحث",
+    "reset": "إعادة تعيين",
+    "noResults": "لا توجد عقارات تطابق بحثك.",
+    "types": {
+      "apartment": "شقة",
+      "villa": "فيلا",
+      "riad": "رياض",
+      "house": "منزل",
+      "land": "أرض",
+      "commercial": "محل تجاري"
+    },
+    "sorts": {
+      "newest": "الأحدث",
+      "price_asc": "السعر تصاعديًا",
+      "price_desc": "السعر تنازليًا"
+    }
   }
 }
