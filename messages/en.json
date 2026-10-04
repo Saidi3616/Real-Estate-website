@@ -6,6 +6,8 @@
   "Home": {
     "brand": "Boligportal Marokko",
     "title": "Welcome 👋",
-    "subtitle": "Find your next home in Morocco. The site is coming soon."
+    "subtitle": "Find your next home in Morocco. The site is coming soon.",
+    "dbCount": "{count} properties in the database",
+    "dbError": "Could not reach the database"
   }
 }
