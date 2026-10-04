@@ -4,8 +4,15 @@ import createNextIntlPlugin from "next-intl/plugin";
 const nextConfig: NextConfig = {
   images: {
     // Billedværter, Next.js må hente og komprimere billeder fra.
-    // Testboligerne bruger Unsplash. Supabase-billeder tilføjes i trin 9.
-    remotePatterns: [{ protocol: "https", hostname: "images.unsplash.com" }],
+    // Testboligerne bruger Unsplash. Uploadede billeder ligger i Supabase Storage.
+    remotePatterns: [
+      { protocol: "https", hostname: "images.unsplash.com" },
+      {
+        protocol: "https",
+        hostname: "*.supabase.co",
+        pathname: "/storage/v1/object/public/**",
+      },
+    ],
   },
 };
 
