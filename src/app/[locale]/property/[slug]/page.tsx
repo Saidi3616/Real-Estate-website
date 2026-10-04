@@ -1,0 +1,152 @@
+import Image from "next/image";
+import { notFound } from "next/navigation";
+import { connection } from "next/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { supabase } from "@/lib/supabase";
+import { Link } from "@/i18n/navigation";
+import { priceFormat } from "@/components/PropertyCard";
+
+// Faciliteter, vi har tekster til. Ukendte faciliteter springes over.
+const knownFeatures = [
+  "pool",
+  "parking",
+  "elevator",
+  "terrace",
+  "balcony",
+  "garden",
+  "furnished",
+  "sea_view",
+];
+
+export default async function PropertyPage({
+  params,
+}: PageProps<"/[locale]/property/[slug]">) {
+  const { locale, slug } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("Property");
+  const tCard = await getTranslations("PropertyCard");
+
+  // Hent boligen ved hvert besøg, så ændringer vises med det samme.
+  await connection();
+  // Find den udgivne bolig med denne slug, og mægleren bag den.
+  const { data: property } = await supabase
+    .from("properties")
+    .select("*, agent:agents(name, company)")
+    .eq("slug", slug)
+    .eq("status", "published")
+    .maybeSingle();
+
+  // Ingen bolig med den adresse: vis "siden findes ikke".
+  if (!property) notFound();
+
+  // Vælg tekst på det sprog, brugeren har valgt.
+  const lang = locale === "ar" || locale === "en" ? locale : "fr";
+  const title: string = property[`title_${lang}`];
+  const description: string | null = property[`description_${lang}`];
+  const image: string | undefined = property.images[0];
+  const features = (property.features as string[]).filter((f) =>
+    knownFeatures.includes(f),
+  );
+
+  // Fakta-boksene. Felter uden værdi vises ikke.
+  const facts = [
+    { label: t("area"), value: property.area_m2 && `${property.area_m2} m²` },
+    { label: t("bedrooms"), value: property.bedrooms },
+    { label: t("bathrooms"), value: property.bathrooms },
+    { label: t("floor"), value: property.floor },
+  ].filter((fact) => fact.value != null);
+
+  return (
+    <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-6 px-4 py-6">
+      <Link href="/" className="text-sm font-medium text-emerald-700">
+        {t("back")}
+      </Link>
+
+      <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-stone-100 sm:aspect-[16/9]">
+        {image && (
+          <Image
+            src={image}
+            alt={title}
+            fill
+            priority
+            sizes="(max-width: 896px) 100vw, 896px"
+            className="object-cover"
+          />
+        )}
+        <span className="absolute start-3 top-3 rounded-full bg-emerald-700 px-3 py-1 text-xs font-semibold text-white">
+          {property.listing_type === "sale" ? tCard("sale") : tCard("rent")}
+        </span>
+      </div>
+
+      <div className="flex flex-col gap-1">
+        <p className="text-3xl font-bold text-stone-900">
+          <bdi>{priceFormat.format(property.price)} MAD</bdi>
+          {property.rent_period && (
+            <span className="text-base font-normal text-stone-500">
+              {" "}
+              {property.rent_period === "month"
+                ? tCard("perMonth")
+                : tCard("perDay")}
+            </span>
+          )}
+        </p>
+        <h1 className="text-2xl font-semibold text-stone-800">{title}</h1>
+        <p className="text-stone-500">
+          {property.neighborhood
+            ? `${property.neighborhood}, ${property.city}`
+            : property.city}
+        </p>
+      </div>
+
+      {facts.length > 0 && (
+        <dl className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {facts.map((fact) => (
+            <div key={fact.label} className="rounded-xl bg-stone-100 p-3">
+              <dt className="text-xs text-stone-500">{fact.label}</dt>
+              <dd className="text-lg font-semibold text-stone-900">
+                <bdi>{fact.value}</bdi>
+              </dd>
+            </div>
+          ))}
+        </dl>
+      )}
+
+      {description && (
+        <section className="flex flex-col gap-2">
+          <h2 className="text-lg font-semibold text-stone-900">
+            {t("description")}
+          </h2>
+          <p className="leading-relaxed text-stone-700">{description}</p>
+        </section>
+      )}
+
+      {features.length > 0 && (
+        <section className="flex flex-col gap-2">
+          <h2 className="text-lg font-semibold text-stone-900">
+            {t("features")}
+          </h2>
+          <ul className="flex flex-wrap gap-2">
+            {features.map((feature) => (
+              <li
+                key={feature}
+                className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-sm text-emerald-800"
+              >
+                {t(`feature.${feature}`)}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {property.agent && (
+        <section className="flex flex-col gap-1 rounded-2xl border border-stone-200 p-4">
+          <h2 className="text-sm text-stone-500">{t("agent")}</h2>
+          <p className="font-semibold text-stone-900">{property.agent.name}</p>
+          {property.agent.company && (
+            <p className="text-stone-600">{property.agent.company}</p>
+          )}
+        </section>
+      )}
+    </main>
+  );
+}

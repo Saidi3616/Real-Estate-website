@@ -14,7 +14,7 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
   const { data: properties, error } = await supabase
     .from("properties")
     .select(
-      "id, title_fr, title_ar, title_en, listing_type, price, rent_period, city, neighborhood, area_m2, bedrooms, images",
+      "id, slug, title_fr, title_ar, title_en, listing_type, price, rent_period, city, neighborhood, area_m2, bedrooms, images",
     )
     .eq("status", "published")
     .order("created_at", { ascending: false });

@@ -15,5 +15,25 @@
     "perMonth": "/ شهريًا",
     "perDay": "/ يوميًا",
     "bedrooms": "{count, plural, one {غرفة نوم واحدة} two {غرفتا نوم} few {# غرف نوم} other {# غرفة نوم}}"
+  },
+  "Property": {
+    "back": "→ العودة إلى العقارات",
+    "area": "المساحة",
+    "bedrooms": "غرف النوم",
+    "bathrooms": "الحمامات",
+    "floor": "الطابق",
+    "description": "الوصف",
+    "features": "المرافق",
+    "agent": "الوكيل العقاري",
+    "feature": {
+      "pool": "مسبح",
+      "parking": "موقف سيارات",
+      "elevator": "مصعد",
+      "terrace": "تراس",
+      "balcony": "شرفة",
+      "garden": "حديقة",
+      "furnished": "مفروش",
+      "sea_view": "إطلالة على البحر"
+    }
   }
 }

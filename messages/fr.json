@@ -15,5 +15,25 @@
     "perMonth": "/ mois",
     "perDay": "/ jour",
     "bedrooms": "{count, plural, one {# chambre} other {# chambres}}"
+  },
+  "Property": {
+    "back": "← Retour aux logements",
+    "area": "Surface",
+    "bedrooms": "Chambres",
+    "bathrooms": "Salles de bain",
+    "floor": "Étage",
+    "description": "Description",
+    "features": "Équipements",
+    "agent": "Agent immobilier",
+    "feature": {
+      "pool": "Piscine",
+      "parking": "Parking",
+      "elevator": "Ascenseur",
+      "terrace": "Terrasse",
+      "balcony": "Balcon",
+      "garden": "Jardin",
+      "furnished": "Meublé",
+      "sea_view": "Vue sur mer"
+    }
   }
 }
