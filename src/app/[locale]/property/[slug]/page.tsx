@@ -1,10 +1,11 @@
-import Image from "next/image";
 import { notFound } from "next/navigation";
+import { headers } from "next/headers";
 import { connection } from "next/server";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { supabase } from "@/lib/supabase";
 import { Link } from "@/i18n/navigation";
 import { priceFormat } from "@/components/PropertyCard";
+import PropertyGallery from "@/components/PropertyGallery";
 
 // Faciliteter, vi har tekster til. Ukendte faciliteter springes over.
 const knownFeatures = [
@@ -31,7 +32,7 @@ export default async function PropertyPage({
   // Find den udgivne bolig med denne slug, og mægleren bag den.
   const { data: property } = await supabase
     .from("properties")
-    .select("*, agent:agents(name, company)")
+    .select("*, agent:agents(name, company, phone, whatsapp)")
     .eq("slug", slug)
     .eq("status", "published")
     .maybeSingle();
@@ -43,7 +44,7 @@ export default async function PropertyPage({
   const lang = locale === "ar" || locale === "en" ? locale : "fr";
   const title: string = property[`title_${lang}`];
   const description: string | null = property[`description_${lang}`];
-  const image: string | undefined = property.images[0];
+  const images: string[] = property.images;
   const features = (property.features as string[]).filter((f) =>
     knownFeatures.includes(f),
   );
@@ -56,22 +57,32 @@ export default async function PropertyPage({
     { label: t("floor"), value: property.floor },
   ].filter((fact) => fact.value != null);
 
+  // Kontaktknapper. WhatsApp-beskeden er udfyldt på forhånd med boligens navn og link.
+  const host = (await headers()).get("host");
+  const pageUrl = `https://${host}/${locale}/property/${slug}`;
+  const whatsapp = property.agent?.whatsapp?.replace(/\D/g, "");
+  const whatsappUrl =
+    whatsapp &&
+    `https://wa.me/${whatsapp}?text=${encodeURIComponent(
+      t("whatsappMessage", { title, url: pageUrl }),
+    )}`;
+  const phone = property.agent?.phone?.replace(/\s/g, "");
+
   return (
-    <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-6 px-4 py-6">
+    <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-6 px-4 pt-6">
       <Link href="/" className="text-sm font-medium text-emerald-700">
         {t("back")}
       </Link>
 
-      <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-stone-100 sm:aspect-[16/9]">
-        {image && (
-          <Image
-            src={image}
-            alt={title}
-            fill
-            priority
-            sizes="(max-width: 896px) 100vw, 896px"
-            className="object-cover"
+      <div className="relative">
+        {images.length > 0 ? (
+          <PropertyGallery
+            images={images}
+            title={title}
+            label={t("photos", { count: images.length })}
           />
+        ) : (
+          <div className="aspect-[4/3] rounded-2xl bg-stone-100 sm:aspect-[16/9]" />
         )}
         <span className="absolute start-3 top-3 rounded-full bg-emerald-700 px-3 py-1 text-xs font-semibold text-white">
           {property.listing_type === "sale" ? tCard("sale") : tCard("rent")}
@@ -146,6 +157,30 @@ export default async function PropertyPage({
             <p className="text-stone-600">{property.agent.company}</p>
           )}
         </section>
+      )}
+
+      {(whatsappUrl || phone) && (
+        // Knapperne bliver hængende nederst på skærmen, mens man scroller.
+        <div className="sticky bottom-0 -mx-4 flex gap-3 border-t border-stone-200 bg-white/95 px-4 py-3 backdrop-blur">
+          {whatsappUrl && (
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 rounded-xl bg-[#25D366] py-3 text-center font-semibold text-white"
+            >
+              {t("whatsapp")}
+            </a>
+          )}
+          {phone && (
+            <a
+              href={`tel:${phone}`}
+              className="flex-1 rounded-xl border border-emerald-700 py-3 text-center font-semibold text-emerald-700"
+            >
+              {t("call")}
+            </a>
+          )}
+        </div>
       )}
     </main>
   );
