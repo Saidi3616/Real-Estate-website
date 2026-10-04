@@ -34,6 +34,10 @@
       "garden": "Jardin",
       "furnished": "Meublé",
       "sea_view": "Vue sur mer"
-    }
+    },
+    "photos": "{count} photos · glissez",
+    "whatsapp": "WhatsApp",
+    "call": "Appeler",
+    "whatsappMessage": "Bonjour, je suis intéressé(e) par ce logement : {title} {url}"
   }
 }

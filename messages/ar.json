@@ -34,6 +34,10 @@
       "garden": "حديقة",
       "furnished": "مفروش",
       "sea_view": "إطلالة على البحر"
-    }
+    },
+    "photos": "{count} صور · اسحب",
+    "whatsapp": "واتساب",
+    "call": "اتصل",
+    "whatsappMessage": "السلام عليكم، أنا مهتم بهذا العقار: {title} {url}"
   }
 }

@@ -34,6 +34,10 @@
       "garden": "Garden",
       "furnished": "Furnished",
       "sea_view": "Sea view"
-    }
+    },
+    "photos": "{count} photos · swipe",
+    "whatsapp": "WhatsApp",
+    "call": "Call",
+    "whatsappMessage": "Hello, I am interested in this property: {title} {url}"
   }
 }
