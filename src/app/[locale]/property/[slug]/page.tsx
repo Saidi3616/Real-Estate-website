@@ -7,6 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { priceFormat } from "@/components/PropertyCard";
 import PropertyGallery from "@/components/PropertyGallery";
 import PropertyMap from "@/components/PropertyMap";
+import ContactForm from "@/components/ContactForm";
 
 // Faciliteter, vi har tekster til. Ukendte faciliteter springes over.
 const knownFeatures = [
@@ -27,6 +28,7 @@ export default async function PropertyPage({
   setRequestLocale(locale);
   const t = await getTranslations("Property");
   const tCard = await getTranslations("PropertyCard");
+  const tContact = await getTranslations("Contact");
 
   // Hent boligen ved hvert besøg, så ændringer vises med det samme.
   await connection();
@@ -177,29 +179,41 @@ export default async function PropertyPage({
         </section>
       )}
 
-      {(whatsappUrl || phone) && (
-        // Knapperne bliver hængende nederst på skærmen, mens man scroller.
-        <div className="sticky bottom-0 -mx-4 flex gap-3 border-t border-stone-200 bg-white/95 px-4 py-3 backdrop-blur">
-          {whatsappUrl && (
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 rounded-xl bg-[#25D366] py-3 text-center font-semibold text-white"
-            >
-              {t("whatsapp")}
-            </a>
-          )}
-          {phone && (
-            <a
-              href={`tel:${phone}`}
-              className="flex-1 rounded-xl border border-emerald-700 py-3 text-center font-semibold text-emerald-700"
-            >
-              {t("call")}
-            </a>
-          )}
-        </div>
-      )}
+      {/* Kontaktformularen. "Formular"-knappen nederst hopper hertil. */}
+      <section id="contact" className="flex scroll-mt-4 flex-col gap-3">
+        <h2 className="text-lg font-semibold text-stone-900">
+          {tContact("title")}
+        </h2>
+        <ContactForm propertyId={property.id} />
+      </section>
+
+      {/* Knapperne bliver hængende nederst på skærmen, mens man scroller. */}
+      <div className="sticky bottom-0 -mx-4 flex gap-3 border-t border-stone-200 bg-white/95 px-4 py-3 backdrop-blur">
+        {whatsappUrl && (
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 rounded-xl bg-[#25D366] py-3 text-center font-semibold text-white"
+          >
+            {t("whatsapp")}
+          </a>
+        )}
+        {phone && (
+          <a
+            href={`tel:${phone}`}
+            className="flex-1 rounded-xl border border-emerald-700 py-3 text-center font-semibold text-emerald-700"
+          >
+            {t("call")}
+          </a>
+        )}
+        <a
+          href="#contact"
+          className="flex-1 rounded-xl border border-emerald-700 py-3 text-center font-semibold text-emerald-700"
+        >
+          {tContact("form")}
+        </a>
+      </div>
     </main>
   );
 }
