@@ -1,7 +1,8 @@
 import { connection } from "next/server";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { supabase } from "@/lib/supabase";
-import PropertyCard from "@/components/PropertyCard";
+import PropertyCard, { priceFormat } from "@/components/PropertyCard";
+import SearchMap, { type MapPoint } from "@/components/SearchMap";
 import SearchFilters, {
   bedroomOptions,
   propertyTypes,
@@ -30,6 +31,7 @@ export default async function SearchPage({
   setRequestLocale(locale);
   const t = await getTranslations("Search");
   const tHome = await getTranslations("Home");
+  const tCard = await getTranslations("PropertyCard");
 
   // Filtrene fra adressen, fx /fr/search?city=Marrakech&minPrice=500000
   const query = await searchParams;
@@ -60,7 +62,7 @@ export default async function SearchPage({
   let search = supabase
     .from("properties")
     .select(
-      "id, slug, title_fr, title_ar, title_en, listing_type, price, rent_period, city, neighborhood, area_m2, bedrooms, images",
+      "id, slug, title_fr, title_ar, title_en, listing_type, price, rent_period, city, neighborhood, area_m2, bedrooms, images, latitude, longitude",
     )
     .eq("status", "published");
   if (filters.listing) search = search.eq("listing_type", filters.listing);
@@ -84,6 +86,25 @@ export default async function SearchPage({
 
   const { data: properties, error } = await search;
 
+  // Prikker til kortet: kun boliger med placering, rundet af til ca. 1 km (privatliv).
+  const lang = locale === "ar" || locale === "en" ? locale : "fr";
+  const round = (n: number) => Math.round(n * 100) / 100;
+  const points: MapPoint[] = (properties ?? [])
+    .filter((p) => p.latitude != null && p.longitude != null)
+    .map((p) => ({
+      href: `/${locale}/property/${p.slug}`,
+      latitude: round(p.latitude),
+      longitude: round(p.longitude),
+      title: p[`title_${lang}`],
+      price:
+        `${priceFormat.format(p.price)} MAD` +
+        (p.rent_period === "month"
+          ? ` ${tCard("perMonth")}`
+          : p.rent_period === "day"
+            ? ` ${tCard("perDay")}`
+            : ""),
+    }));
+
   return (
     <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-4 py-8">
       <h1 className="text-3xl font-bold text-stone-900 sm:text-4xl">
@@ -101,6 +122,7 @@ export default async function SearchPage({
           <p className="font-semibold text-stone-700">
             {t("count", { count: properties.length })}
           </p>
+          {points.length > 0 && <SearchMap points={points} label={t("map")} />}
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {properties.map((property) => (
               <PropertyCard key={property.id} property={property} locale={locale} />

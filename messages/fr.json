@@ -80,6 +80,7 @@
     "max": "Max",
     "bedrooms": "Chambres",
     "area": "Surface (m²)",
-    "count": "{count, plural, one {# logement trouvé} other {# logements trouvés}}"
+    "count": "{count, plural, one {# logement trouvé} other {# logements trouvés}}",
+    "map": "Carte des résultats"
   }
 }
