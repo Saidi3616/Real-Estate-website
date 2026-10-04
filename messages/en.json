@@ -82,5 +82,18 @@
     "area": "Area (m²)",
     "count": "{count, plural, one {# property found} other {# properties found}}",
     "map": "Map of results"
+  },
+  "Contact": {
+    "form": "Form",
+    "title": "Contact the agent",
+    "name": "Name",
+    "phone": "Phone",
+    "message": "Message",
+    "defaultMessage": "Hello, I am interested in this property. Please get back to me.",
+    "send": "Send",
+    "sending": "Sending …",
+    "sent": "Thank you! Your message has been sent. The agent will get back to you soon.",
+    "invalid": "Please enter your name and a valid phone number.",
+    "error": "Something went wrong. Try again or contact the agent on WhatsApp."
   }
 }
