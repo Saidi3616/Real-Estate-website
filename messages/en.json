@@ -5,9 +5,15 @@
   },
   "Home": {
     "brand": "Boligportal Marokko",
-    "title": "Welcome 👋",
-    "subtitle": "Find your next home in Morocco. The site is coming soon.",
-    "dbCount": "{count} properties in the database",
+    "listTitle": "Available properties",
+    "empty": "No properties yet.",
     "dbError": "Could not reach the database"
+  },
+  "PropertyCard": {
+    "sale": "For sale",
+    "rent": "For rent",
+    "perMonth": "/ month",
+    "perDay": "/ day",
+    "bedrooms": "{count, plural, one {# bedroom} other {# bedrooms}}"
   }
 }

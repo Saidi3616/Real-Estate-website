@@ -5,9 +5,15 @@
   },
   "Home": {
     "brand": "Boligportal Marokko",
-    "title": "Bienvenue 👋",
-    "subtitle": "Trouvez votre prochain logement au Maroc. Le site arrive bientôt.",
-    "dbCount": "{count} logements dans la base de données",
+    "listTitle": "Logements disponibles",
+    "empty": "Aucun logement pour le moment.",
     "dbError": "Impossible de joindre la base de données"
+  },
+  "PropertyCard": {
+    "sale": "À vendre",
+    "rent": "À louer",
+    "perMonth": "/ mois",
+    "perDay": "/ jour",
+    "bedrooms": "{count, plural, one {# chambre} other {# chambres}}"
   }
 }
