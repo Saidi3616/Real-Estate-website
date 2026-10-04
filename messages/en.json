@@ -5,11 +5,14 @@
   },
   "Home": {
     "brand": "Boligportal Marokko",
-    "listTitle": "Available properties",
     "empty": "No properties yet.",
     "dbError": "Could not reach the database",
     "heroTitle": "Find your home in Morocco",
-    "heroSubtitle": "Apartments, villas and riads for sale or rent."
+    "heroSubtitle": "Apartments, villas and riads for sale or rent.",
+    "featuredTitle": "Featured properties",
+    "seeAll": "See all properties",
+    "citiesTitle": "Popular cities",
+    "cityCount": "{count, plural, one {# property} other {# properties}}"
   },
   "PropertyCard": {
     "sale": "For sale",

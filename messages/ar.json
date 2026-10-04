@@ -5,11 +5,14 @@
   },
   "Home": {
     "brand": "Boligportal Marokko",
-    "listTitle": "العقارات المتاحة",
     "empty": "لا توجد عقارات حاليًا.",
     "dbError": "تعذر الاتصال بقاعدة البيانات",
     "heroTitle": "ابحث عن مسكنك في المغرب",
-    "heroSubtitle": "شقق وفيلات ورياضات للبيع أو للكراء."
+    "heroSubtitle": "شقق وفيلات ورياضات للبيع أو للكراء.",
+    "featuredTitle": "عقارات مميزة",
+    "seeAll": "عرض كل العقارات",
+    "citiesTitle": "مدن شائعة",
+    "cityCount": "{count, plural, one {عقار واحد} two {عقاران} few {# عقارات} many {# عقارًا} other {# عقار}}"
   },
   "PropertyCard": {
     "sale": "للبيع",
