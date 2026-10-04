@@ -15,5 +15,25 @@
     "perMonth": "/ month",
     "perDay": "/ day",
     "bedrooms": "{count, plural, one {# bedroom} other {# bedrooms}}"
+  },
+  "Property": {
+    "back": "← Back to properties",
+    "area": "Area",
+    "bedrooms": "Bedrooms",
+    "bathrooms": "Bathrooms",
+    "floor": "Floor",
+    "description": "Description",
+    "features": "Features",
+    "agent": "Real estate agent",
+    "feature": {
+      "pool": "Pool",
+      "parking": "Parking",
+      "elevator": "Elevator",
+      "terrace": "Terrace",
+      "balcony": "Balcony",
+      "garden": "Garden",
+      "furnished": "Furnished",
+      "sea_view": "Sea view"
+    }
   }
 }

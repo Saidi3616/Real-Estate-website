@@ -1,9 +1,11 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 
 // De felter fra databasen, som boligkortet bruger.
 export type PropertyCardData = {
   id: string;
+  slug: string;
   title_fr: string;
   title_ar: string;
   title_en: string;
@@ -18,7 +20,7 @@ export type PropertyCardData = {
 };
 
 // Pris som "1 250 000 MAD" (mellemrum mellem tusinder, som i Marokko).
-const priceFormat = new Intl.NumberFormat("fr-FR");
+export const priceFormat = new Intl.NumberFormat("fr-FR");
 
 export default async function PropertyCard({
   property,
@@ -39,7 +41,11 @@ export default async function PropertyCard({
   const image = property.images[0];
 
   return (
-    <article className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
+    // Hele kortet er et link til boligsiden.
+    <Link
+      href={`/property/${property.slug}`}
+      className="block overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition hover:shadow-md"
+    >
       <div className="relative aspect-[4/3] bg-stone-100">
         {image && (
           <Image
@@ -82,6 +88,6 @@ export default async function PropertyCard({
           )}
         </p>
       </div>
-    </article>
+    </Link>
   );
 }
