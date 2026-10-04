@@ -80,6 +80,7 @@
     "max": "Max",
     "bedrooms": "Bedrooms",
     "area": "Area (m²)",
-    "count": "{count, plural, one {# property found} other {# properties found}}"
+    "count": "{count, plural, one {# property found} other {# properties found}}",
+    "map": "Map of results"
   }
 }
