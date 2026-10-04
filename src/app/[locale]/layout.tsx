@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
+import { siteUrl } from "@/lib/site";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import "../globals.css";
 
@@ -28,7 +29,14 @@ export async function generateMetadata({
 }: LayoutProps<"/[locale]">): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Metadata" });
-  return { title: t("title"), description: t("description") };
+  return {
+    // Gør relative adresser (billeder, sprogversioner) til fulde adresser.
+    metadataBase: new URL(siteUrl),
+    // Undersider får sidens navn efter deres egen titel, fx "Villa i Agadir | Boligportal Marokko".
+    title: { default: t("title"), template: `%s | ${t("title")}` },
+    description: t("description"),
+    openGraph: { siteName: t("title"), locale },
+  };
 }
 
 export default async function LocaleLayout({

@@ -1,8 +1,11 @@
+import { cache } from "react";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { headers } from "next/headers";
 import { connection } from "next/server";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { supabase } from "@/lib/supabase";
+import { alternates } from "@/lib/site";
 import { Link } from "@/i18n/navigation";
 import { priceFormat } from "@/components/PropertyCard";
 import PropertyGallery from "@/components/PropertyGallery";
@@ -21,6 +24,48 @@ const knownFeatures = [
   "sea_view",
 ];
 
+// Find den udgivne bolig med denne slug, og mægleren bag den.
+// "cache" gør, at titlen og selve siden deler én hentning fra databasen.
+const getProperty = cache(async (slug: string) => {
+  // Hent boligen ved hvert besøg, så ændringer vises med det samme.
+  await connection();
+  const { data } = await supabase
+    .from("properties")
+    .select("*, agent:agents(name, company, phone, whatsapp)")
+    .eq("slug", slug)
+    .eq("status", "published")
+    .maybeSingle();
+  return data;
+});
+
+// Titel, beskrivelse og billede, som Google og WhatsApp/Facebook viser.
+export async function generateMetadata({
+  params,
+}: PageProps<"/[locale]/property/[slug]">): Promise<Metadata> {
+  const { locale, slug } = await params;
+  const property = await getProperty(slug);
+  if (!property) return {};
+
+  const lang = locale === "ar" || locale === "en" ? locale : "fr";
+  const title: string = property[`title_${lang}`];
+  const place = property.neighborhood
+    ? `${property.neighborhood}, ${property.city}`
+    : property.city;
+  // Pris og sted først, derefter starten af beskrivelsen. Google viser ca. 160 tegn.
+  let description = `${priceFormat.format(property.price)} MAD · ${place}. ${
+    property[`description_${lang}`] ?? ""
+  }`.trim();
+  if (description.length > 160) description = description.slice(0, 157) + "…";
+  const image: string | undefined = property.images[0];
+
+  return {
+    title,
+    description,
+    alternates: alternates(locale, `/property/${slug}`),
+    openGraph: { title, description, images: image ? [image] : [] },
+  };
+}
+
 export default async function PropertyPage({
   params,
 }: PageProps<"/[locale]/property/[slug]">) {
@@ -30,15 +75,7 @@ export default async function PropertyPage({
   const tCard = await getTranslations("PropertyCard");
   const tContact = await getTranslations("Contact");
 
-  // Hent boligen ved hvert besøg, så ændringer vises med det samme.
-  await connection();
-  // Find den udgivne bolig med denne slug, og mægleren bag den.
-  const { data: property } = await supabase
-    .from("properties")
-    .select("*, agent:agents(name, company, phone, whatsapp)")
-    .eq("slug", slug)
-    .eq("status", "published")
-    .maybeSingle();
+  const property = await getProperty(slug);
 
   // Ingen bolig med den adresse: vis "siden findes ikke".
   if (!property) notFound();

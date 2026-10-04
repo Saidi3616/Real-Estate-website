@@ -4,6 +4,13 @@ import { supabase } from "@/lib/supabase";
 import PropertyCard from "@/components/PropertyCard";
 import HomeSearch from "@/components/HomeSearch";
 import { Link } from "@/i18n/navigation";
+import { alternates } from "@/lib/site";
+
+// Forsidens sprogversioner til Google.
+export async function generateMetadata({ params }: PageProps<"/[locale]">) {
+  const { locale } = await params;
+  return { alternates: alternates(locale) };
+}
 
 export default async function Home({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;

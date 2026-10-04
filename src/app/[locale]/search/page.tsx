@@ -1,6 +1,7 @@
 import { connection } from "next/server";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { supabase } from "@/lib/supabase";
+import { alternates } from "@/lib/site";
 import PropertyCard, { priceFormat } from "@/components/PropertyCard";
 import SearchMap, { type MapPoint } from "@/components/SearchMap";
 import SearchFilters, {
@@ -21,6 +22,13 @@ function pick(value: string | string[] | undefined, allowed?: string[]) {
 function pickNumber(value: string | string[] | undefined) {
   const text = pick(value);
   return /^\d+$/.test(text) ? text : "";
+}
+
+// Søgesidens titel. Filtrene tæller ikke med, så Google ser kun én søgeside pr. sprog.
+export async function generateMetadata({ params }: PageProps<"/[locale]/search">) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Search" });
+  return { title: t("title"), alternates: alternates(locale, "/search") };
 }
 
 export default async function SearchPage({
