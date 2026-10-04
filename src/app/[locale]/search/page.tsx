@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { supabase } from "@/lib/supabase";
 import PropertyCard from "@/components/PropertyCard";
 import SearchFilters, {
+  bedroomOptions,
   propertyTypes,
   sortOptions,
   type Filters,
@@ -10,9 +11,15 @@ import SearchFilters, {
 
 // Læs én værdi fra adressen. Kun værdier fra listen "allowed" godtages.
 function pick(value: string | string[] | undefined, allowed?: string[]) {
-  const text = typeof value === "string" ? value : "";
+  const text = typeof value === "string" ? value.trim() : "";
   if (allowed && !allowed.includes(text)) return "";
   return text;
+}
+
+// Læs et tal fra adressen. Kun hele tal på 0 eller mere godtages.
+function pickNumber(value: string | string[] | undefined) {
+  const text = pick(value);
+  return /^\d+$/.test(text) ? text : "";
 }
 
 export default async function SearchPage({
@@ -24,12 +31,18 @@ export default async function SearchPage({
   const t = await getTranslations("Search");
   const tHome = await getTranslations("Home");
 
-  // Filtrene fra adressen, fx /fr/search?city=Marrakech&type=villa
+  // Filtrene fra adressen, fx /fr/search?city=Marrakech&minPrice=500000
   const query = await searchParams;
   const filters: Filters = {
     listing: pick(query.listing, ["sale", "rent"]),
     city: pick(query.city),
+    neighborhood: pick(query.neighborhood).slice(0, 50),
     type: pick(query.type, propertyTypes),
+    minPrice: pickNumber(query.minPrice),
+    maxPrice: pickNumber(query.maxPrice),
+    bedrooms: pick(query.bedrooms, bedroomOptions),
+    minArea: pickNumber(query.minArea),
+    maxArea: pickNumber(query.maxArea),
     sort: pick(query.sort, sortOptions) || "newest",
   };
 
@@ -52,7 +65,18 @@ export default async function SearchPage({
     .eq("status", "published");
   if (filters.listing) search = search.eq("listing_type", filters.listing);
   if (filters.city) search = search.eq("city", filters.city);
+  if (filters.neighborhood) {
+    // Kvarteret skal indeholde teksten (store/små bogstaver er ligegyldige).
+    // Tegnene % _ \ har en særlig betydning i søgningen, så de "neutraliseres".
+    const text = filters.neighborhood.replace(/[%_\\]/g, "\\$&");
+    search = search.ilike("neighborhood", `%${text}%`);
+  }
   if (filters.type) search = search.eq("property_type", filters.type);
+  if (filters.minPrice) search = search.gte("price", Number(filters.minPrice));
+  if (filters.maxPrice) search = search.lte("price", Number(filters.maxPrice));
+  if (filters.bedrooms) search = search.gte("bedrooms", Number(filters.bedrooms));
+  if (filters.minArea) search = search.gte("area_m2", Number(filters.minArea));
+  if (filters.maxArea) search = search.lte("area_m2", Number(filters.maxArea));
   search =
     filters.sort === "newest"
       ? search.order("created_at", { ascending: false })
@@ -73,11 +97,16 @@ export default async function SearchPage({
       ) : properties.length === 0 ? (
         <p className="text-stone-600">{t("noResults")}</p>
       ) : (
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {properties.map((property) => (
-            <PropertyCard key={property.id} property={property} locale={locale} />
-          ))}
-        </div>
+        <>
+          <p className="font-semibold text-stone-700">
+            {t("count", { count: properties.length })}
+          </p>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {properties.map((property) => (
+              <PropertyCard key={property.id} property={property} locale={locale} />
+            ))}
+          </div>
+        </>
       )}
     </main>
   );

@@ -14,11 +14,20 @@ export const propertyTypes = [
 // Sorteringsmuligheder. "newest" er standard.
 export const sortOptions = ["newest", "price_asc", "price_desc"];
 
+// Valg for "mindst X værelser".
+export const bedroomOptions = ["1", "2", "3", "4"];
+
 // De filtre, brugeren har valgt lige nu (tom tekst = ikke valgt).
 export type Filters = {
   listing: string;
   city: string;
+  neighborhood: string;
   type: string;
+  minPrice: string;
+  maxPrice: string;
+  bedrooms: string;
+  minArea: string;
+  maxArea: string;
   sort: string;
 };
 
@@ -30,8 +39,9 @@ export default async function SearchFilters({
   cities: string[];
 }) {
   const t = await getTranslations("Search");
-  const selectClass =
-    "w-full rounded-lg border border-stone-300 bg-white px-3 py-2 text-stone-900";
+  const fieldClass =
+    "w-full min-w-0 rounded-lg border border-stone-300 bg-white px-3 py-2 text-stone-900";
+  const labelClass = "flex flex-col gap-1 text-sm font-medium text-stone-700";
 
   return (
     // En almindelig formular: "Søg" lægger valgene i adressen (?city=...).
@@ -41,18 +51,18 @@ export default async function SearchFilters({
       method="get"
       className="grid grid-cols-1 gap-3 rounded-2xl border border-stone-200 bg-stone-50 p-4 sm:grid-cols-2 lg:grid-cols-4"
     >
-      <label className="flex flex-col gap-1 text-sm font-medium text-stone-700">
+      <label className={labelClass}>
         {t("listing")}
-        <select name="listing" defaultValue={filters.listing} className={selectClass}>
+        <select name="listing" defaultValue={filters.listing} className={fieldClass}>
           <option value="">{t("all")}</option>
           <option value="sale">{t("sale")}</option>
           <option value="rent">{t("rent")}</option>
         </select>
       </label>
 
-      <label className="flex flex-col gap-1 text-sm font-medium text-stone-700">
+      <label className={labelClass}>
         {t("city")}
-        <select name="city" defaultValue={filters.city} className={selectClass}>
+        <select name="city" defaultValue={filters.city} className={fieldClass}>
           <option value="">{t("allCities")}</option>
           {cities.map((city) => (
             <option key={city} value={city}>
@@ -62,9 +72,20 @@ export default async function SearchFilters({
         </select>
       </label>
 
-      <label className="flex flex-col gap-1 text-sm font-medium text-stone-700">
+      <label className={labelClass}>
+        {t("neighborhood")}
+        <input
+          type="text"
+          name="neighborhood"
+          defaultValue={filters.neighborhood}
+          placeholder={t("neighborhoodPlaceholder")}
+          className={fieldClass}
+        />
+      </label>
+
+      <label className={labelClass}>
         {t("type")}
-        <select name="type" defaultValue={filters.type} className={selectClass}>
+        <select name="type" defaultValue={filters.type} className={fieldClass}>
           <option value="">{t("all")}</option>
           {propertyTypes.map((type) => (
             <option key={type} value={type}>
@@ -74,9 +95,75 @@ export default async function SearchFilters({
         </select>
       </label>
 
-      <label className="flex flex-col gap-1 text-sm font-medium text-stone-700">
+      {/* Pris min–maks i MAD. inputMode giver taltastatur på mobil. */}
+      <fieldset className={labelClass}>
+        <legend className="mb-1">{t("price")}</legend>
+        <div className="flex gap-2">
+          <input
+            type="number"
+            name="minPrice"
+            min="0"
+            inputMode="numeric"
+            defaultValue={filters.minPrice}
+            placeholder={t("min")}
+            aria-label={`${t("price")} ${t("min")}`}
+            className={fieldClass}
+          />
+          <input
+            type="number"
+            name="maxPrice"
+            min="0"
+            inputMode="numeric"
+            defaultValue={filters.maxPrice}
+            placeholder={t("max")}
+            aria-label={`${t("price")} ${t("max")}`}
+            className={fieldClass}
+          />
+        </div>
+      </fieldset>
+
+      <label className={labelClass}>
+        {t("bedrooms")}
+        <select name="bedrooms" defaultValue={filters.bedrooms} className={fieldClass}>
+          <option value="">{t("all")}</option>
+          {bedroomOptions.map((count) => (
+            <option key={count} value={count}>
+              {count}+
+            </option>
+          ))}
+        </select>
+      </label>
+
+      {/* Areal min–maks i m². */}
+      <fieldset className={labelClass}>
+        <legend className="mb-1">{t("area")}</legend>
+        <div className="flex gap-2">
+          <input
+            type="number"
+            name="minArea"
+            min="0"
+            inputMode="numeric"
+            defaultValue={filters.minArea}
+            placeholder={t("min")}
+            aria-label={`${t("area")} ${t("min")}`}
+            className={fieldClass}
+          />
+          <input
+            type="number"
+            name="maxArea"
+            min="0"
+            inputMode="numeric"
+            defaultValue={filters.maxArea}
+            placeholder={t("max")}
+            aria-label={`${t("area")} ${t("max")}`}
+            className={fieldClass}
+          />
+        </div>
+      </fieldset>
+
+      <label className={labelClass}>
         {t("sort")}
-        <select name="sort" defaultValue={filters.sort} className={selectClass}>
+        <select name="sort" defaultValue={filters.sort} className={fieldClass}>
           {sortOptions.map((sort) => (
             <option key={sort} value={sort}>
               {t(`sorts.${sort}`)}

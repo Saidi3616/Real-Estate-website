@@ -66,6 +66,14 @@
       "newest": "Newest",
       "price_asc": "Price: low to high",
       "price_desc": "Price: high to low"
-    }
+    },
+    "neighborhood": "Neighbourhood",
+    "neighborhoodPlaceholder": "e.g. Gueliz",
+    "price": "Price (MAD)",
+    "min": "Min",
+    "max": "Max",
+    "bedrooms": "Bedrooms",
+    "area": "Area (m²)",
+    "count": "{count, plural, one {# property found} other {# properties found}}"
   }
 }
