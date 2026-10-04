@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
@@ -56,17 +57,29 @@ export default function AdminProperties() {
         </button>
       </div>
 
+      <Link
+        href="/admin/properties/new"
+        className="mb-4 block rounded-lg bg-emerald-700 px-4 py-3 text-center font-semibold text-white"
+      >
+        + Ny bolig
+      </Link>
+
       {error && <p className="text-red-700">Fejl: {error}</p>}
       {!rows && <p>Henter …</p>}
       {rows?.length === 0 && !error && <p>Ingen boliger endnu.</p>}
 
       <ul className="flex flex-col gap-2">
         {rows?.map((row) => (
-          <li key={row.id} className="rounded-lg border border-stone-200 bg-white p-3">
-            <p className="font-semibold">{row.title_fr}</p>
-            <p className="text-sm text-stone-600">
-              {row.city} · {row.price.toLocaleString("fr-FR")} MAD · {statusText[row.status]}
-            </p>
+          <li key={row.id}>
+            <Link
+              href={`/admin/properties/${row.id}`}
+              className="block rounded-lg border border-stone-200 bg-white p-3"
+            >
+              <p className="font-semibold">{row.title_fr}</p>
+              <p className="text-sm text-stone-600">
+                {row.city} · {row.price.toLocaleString("fr-FR")} MAD · {statusText[row.status]}
+              </p>
+            </Link>
           </li>
         ))}
       </ul>
