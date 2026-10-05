@@ -56,7 +56,11 @@ export async function generateMetadata({
     property[`description_${lang}`] ?? ""
   }`.trim();
   if (description.length > 160) description = description.slice(0, 157) + "…";
-  const image: string | undefined = property.images[0];
+  // WhatsApp viser kun små billeder (ca. under 300 KB). Derfor sendes en
+  // komprimeret udgave på 640 pixel via Next.js' egen billedkomprimering.
+  const image: string | undefined = property.images[0]
+    ? `/_next/image?url=${encodeURIComponent(property.images[0])}&w=640&q=75`
+    : undefined;
 
   return {
     title,
