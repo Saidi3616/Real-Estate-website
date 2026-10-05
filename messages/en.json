@@ -95,5 +95,10 @@
     "sent": "Thank you! Your message has been sent. The agent will get back to you soon.",
     "invalid": "Please enter your name and a valid phone number.",
     "error": "Something went wrong. Try again or contact the agent on WhatsApp."
+  },
+  "City": {
+    "title": "Property in {city}",
+    "description": "{count, plural, one {# home} other {# homes}} for sale and rent in {city}.",
+    "searchLink": "Filter and see on the map"
   }
 }

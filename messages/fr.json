@@ -95,5 +95,10 @@
     "sent": "Merci ! Votre message a été envoyé. L’agent vous recontactera bientôt.",
     "invalid": "Veuillez indiquer votre nom et un numéro de téléphone valide.",
     "error": "Une erreur est survenue. Réessayez ou contactez l’agent par WhatsApp."
+  },
+  "City": {
+    "title": "Immobilier à {city}",
+    "description": "{count, plural, one {# logement} other {# logements}} à vendre et à louer à {city}.",
+    "searchLink": "Filtrer et voir sur la carte"
   }
 }
