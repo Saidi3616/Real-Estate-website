@@ -78,14 +78,14 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
             </Link>
           </section>
 
-          {/* Populære byer: hvert felt åbner søgesiden for den by */}
+          {/* Populære byer: hvert felt åbner byens egen side, fx /fr/city/casablanca */}
           <section className="flex flex-col gap-4">
             <h2 className="text-2xl font-bold text-stone-900">{t("citiesTitle")}</h2>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
               {popularCities.map(([city, count]) => (
                 <Link
                   key={city}
-                  href={{ pathname: "/search", query: { city } }}
+                  href={`/city/${city.toLowerCase()}`}
                   className="flex flex-col gap-1 rounded-2xl bg-emerald-50 p-4 hover:bg-emerald-100"
                 >
                   <span className="text-lg font-bold text-emerald-900">{city}</span>
